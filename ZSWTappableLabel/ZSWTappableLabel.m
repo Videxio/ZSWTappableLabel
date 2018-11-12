@@ -121,7 +121,7 @@ typedef NS_ENUM(NSInteger, ZSWTappableLabelNotifyType) {
     NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
 
     textContainer.lineBreakMode = self.lineBreakMode;
-    textContainer.maximumNumberOfLines = self.numberOfLines;
+    textContainer.maximumNumberOfLines = (NSUInteger)self.numberOfLines;
     textContainer.lineFragmentPadding = 0;
     [layoutManager addTextContainer:textContainer];
     
@@ -131,7 +131,7 @@ typedef NS_ENUM(NSInteger, ZSWTappableLabelNotifyType) {
     
     // UILabel vertically centers if it doesn't fill the whole bounds, so compensate for that.
     CGRect usedRect = [layoutManager usedRectForTextContainer:textContainer];
-    self.gesturePointOffset = CGPointMake(0, (CGRectGetHeight(self.bounds) - CGRectGetHeight(usedRect))/2.0);
+    self.gesturePointOffset = CGPointMake(0, (CGRectGetHeight(self.bounds) - CGRectGetHeight(usedRect))/2.0f);
 }
 
 - (void)destroyTextStorageIfNeeded {
@@ -175,7 +175,7 @@ typedef NS_ENUM(NSInteger, ZSWTappableLabelNotifyType) {
                                                         inTextContainer:textContainer
                                fractionOfDistanceBetweenInsertionPoints:&fractionOfDistanceBetween];
         
-        characterIdx = MIN(textStorage.length - 1, characterIdx + fractionOfDistanceBetween);
+        characterIdx = (NSUInteger)MIN(textStorage.length - 1, characterIdx + fractionOfDistanceBetween);
 
         NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:NSMakeRange(characterIdx, 1) actualCharacterRange:NULL];
         CGRect glyphRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:textContainer];
@@ -369,13 +369,13 @@ typedef NS_ENUM(NSInteger, ZSWTappableLabelNotifyType) {
     switch (notifyType) {
         case ZSWTappableLabelNotifyTypeTap:
             [self.tapDelegate tappableLabel:self
-                              tappedAtIndex:characterIndex
+                              tappedAtIndex:(NSInteger)characterIndex
                              withAttributes:attributes];
             break;
             
         case ZSWTappableLabelNotifyTypeLongPress:
             [self.longPressDelegate tappableLabel:self
-                               longPressedAtIndex:characterIndex
+                               longPressedAtIndex:(NSInteger)characterIndex
                                    withAttributes:attributes];
             break;
     }
@@ -523,15 +523,15 @@ typedef NS_ENUM(NSInteger, ZSWTappableLabelNotifyType) {
 }
 
 - (NSInteger)accessibilityElementCount {
-    return [self accessibleElements].count;
+    return (NSInteger)[self accessibleElements].count;
 }
 
 - (id)accessibilityElementAtIndex:(NSInteger)idx {
-    return [self accessibleElements][idx];
+    return [self accessibleElements][(NSUInteger)idx];
 }
 
 - (NSInteger)indexOfAccessibilityElement:(id)element {
-    return [[self accessibleElements] indexOfObject:element];
+    return (NSInteger)[[self accessibleElements] indexOfObject:element];
 }
 
 @end
