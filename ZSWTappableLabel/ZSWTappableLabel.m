@@ -94,7 +94,7 @@ typedef NS_ENUM(NSInteger, ZSWTappableLabelNotifyType) {
 }
 
 - (void)setLongPressAccessibilityActionName:(NSString *)longPressAccessibilityActionName {
-    _longPressAccessibilityActionName = longPressAccessibilityActionName ?: NSLocalizedString(@"Open Menu", nil);
+    _longPressAccessibilityActionName = longPressAccessibilityActionName ?: NSLocalizedStringFromTable(@"Open Menu", @"ZSWTappableLabel", nil);
     _accessibleElements = nil;
 }
 
